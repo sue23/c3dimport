@@ -36,6 +36,9 @@ c3dpar=c3d.c3dpar;
 
 param.DF=[1,c3dpar.point.frames]+c3dpar.trial.actual_start_field(1)-1;
 param.Dt=(param.DF-1)/c3dpar.point.rate;
+if ~isfield(c3dpar.trial,'video_rate_divider')
+    c3dpar.trial.video_rate_divider=1;
+end
 param.video_fs=c3dpar.trial.camera_rate/c3dpar.trial.video_rate_divider;
 param.analog_fs=c3dpar.analog.rate;
 %inizializations
