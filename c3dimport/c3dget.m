@@ -202,9 +202,10 @@ end
 
 %% find data in c3d struct
 [pos,index,lindex]=labelpos(c3d,labels);
-if strcmp(data_type,'analog') & isfield(c3d.c3dpar.point,'labels')
-    pos = pos + length(c3d.c3dpar.point.labels);
-end
+%tolto perche per i dati di frda non sembra servire
+% if strcmp(data_type,'analog') & isfield(c3d.c3dpar.point,'labels')
+%     pos = pos + length(c3d.c3dpar.point.labels);
+% end
 if any(~index)
     data=cell(1,length(labels));
     data(find(index))=c3d.data(pos(index));
