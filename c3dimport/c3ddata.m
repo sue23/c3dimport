@@ -115,7 +115,9 @@ if nch==0
 else
     for j=1:nF
         Ptemp=fread(fid,[4,nP],NumberFormat); %================Read 3D Data field===============
-        p(j,:,:)=shiftdim(Ptemp(1:3,:),-1);
+        if ~isempty(Ptemp)%se non ci sono marker lascia matrice vuota
+            p(j,:,:)=shiftdim(Ptemp(1:3,:),-1);
+        end
         ch(:,((j-1)*nFr+1):j*nFr)=fread(fid,[nch,nFr],NumberFormat);%===============Read analog Data field================
     end
 end
