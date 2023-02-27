@@ -36,10 +36,11 @@ c3dpar=c3d.c3dpar;
 
 param.DF=[1,c3dpar.point.frames]+c3dpar.trial.actual_start_field(1)-1;
 param.Dt=(param.DF-1)/c3dpar.point.rate;
-if ~isfield(c3dpar.trial,'video_rate_divider')
-    c3dpar.trial.video_rate_divider=1;
+if c3dpar.trial.camera_rate==200
+    param.video_fs=c3dpar.trial.camera_rate;
+else
+    param.video_fs=c3dpar.trial.camera_rate/c3dpar.trial.video_rate_divider;
 end
-param.video_fs=c3dpar.trial.camera_rate/c3dpar.trial.video_rate_divider;
 param.analog_fs=c3dpar.analog.rate;
 %inizializations
 rfo=[];
@@ -47,7 +48,11 @@ rfs=[];
 lfo=[];
 lfs=[];
 contextlabel=c3dpar.event_context.labels;
-eventlabel=c3d.c3dpar.event.labels;
+if isfield(c3d.c3dpar.event,'labels')
+    eventlabel=c3d.c3dpar.event.labels;
+else
+    eventlabel=[];
+end
 VFs=param.video_fs;
 AFs=param.analog_fs;
 
@@ -64,8 +69,13 @@ absT=param.Dt(1);
     end
 end
 
-if isempty(c3dpar.event.times), return; end
-time=c3dpar.event.times(2,:)'-absT+c3dpar.event.times(1,:)'*60;
+if isfield(c3d.c3dpar.event,'times')
+    time=c3dpar.event.times(2,:)'-absT+c3dpar.event.times(1,:)'*60;
+else
+    time = [];
+    return
+end
+
 % round time events to the near video Frame
 frame=round(time*VFs);%/VFs; modificato da susanna summa 10/07/2017
 

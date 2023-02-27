@@ -77,11 +77,9 @@ if isfield(c3dpar.point,'labels2')
     c3dpar.point.labels=[c3dpar.point.labels;c3dpar.point.labels2];
 end
 %=============change '*[Num]' in 'Unknown[Num]' in label fields============
-if isfield(c3dpar.point,'labels')
 nstars=strmatch('*',c3dpar.point.labels);
 for i=1:length(nstars)
     c3dpar.point.labels(nstars(i))={['unknown' c3dpar.point.labels{nstars(i)}(2:end)]};
-end
 end
 %=============set analog field if not present============
 if ~isfield(c3dpar,'analog')
